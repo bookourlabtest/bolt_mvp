@@ -1,0 +1,228 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}{{ test.name }} - BookOurLabTest.com{% endblock %}
+
+{% block main %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Back Button -->
+        <button onclick="history.back()"
+                class="flex items-center text-gray-600 hover:text-gray-900 mb-6">
+            <i data-lucide="arrow-left" class="w-5 h-5 mr-2"></i>
+            Back
+        </button>
+
+        <!-- Test Info -->
+        <div class="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+            <div class="mb-4">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ test.name }}</h1>
+                <p class="text-gray-600">{{ test.description }}</p>
+            </div>
+
+            <div class="flex flex-wrap gap-4 text-sm">
+                <div class="flex items-center text-gray-700">
+                    <i data-lucide="flask-conical" class="w-5 h-5 mr-2 text-blue-600"></i>
+                    <span>{{ test.parameters }} Parameters</span>
+                </div>
+                <div class="flex items-center text-gray-700">
+                    <i data-lucide="shield" class="w-5 h-5 mr-2 text-green-600"></i>
+                    <span>NABL Accredited</span>
+                </div>
+                {% if test.fasting %}
+                <div class="flex items-center text-amber-700 bg-amber-50 px-3 py-1 rounded">
+                    <i data-lucide="alert-circle" class="w-4 h-4 mr-2"></i>
+                    <span>Fasting Required (8-12 hours)</span>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Comparison Header -->
+        <div class="bg-white rounded-lg border border-gray-200 p-4 mb-4">
+            <div class="flex items-center justify-between">
+                <h2 class="font-semibold text-gray-900">
+                    Compare {{ offers|length }} Vendor{{ offers|length|pluralize }}
+                </h2>
+                <form method="get" class="flex items-center space-x-2">
+                    <select name="sort"
+                            onchange="this.form.submit()"
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Sort by Price</option>
+                        <option value="eta" {% if sort_by == 'eta' %}selected{% endif %}>Sort by ETA</option>
+                        <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Sort by Rating</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+        <!-- Vendor Offers -->
+        <div class="space-y-4">
+            {% for offer in offers %}
+            <div class="bg-white rounded-lg border-2 border-gray-200 p-6 hover:border-gray-300 transition">
+                <div class="grid md:grid-cols-12 gap-4 items-center">
+                    <!-- Vendor Info -->
+                    <div class="md:col-span-3">
+                        <h3 class="font-semibold text-gray-900 mb-2">{{ offer.vendor.name }}</h3>
+                        <div class="flex items-center space-x-2 text-sm">
+                            <div class="flex items-center">
+                                <i data-lucide="star" class="w-4 h-4 text-yellow-400 fill-current"></i>
+                                <span class="ml-1 font-medium">{{ offer.vendor.rating }}</span>
+                            </div>
+                            <span class="text-gray-500">({{ offer.vendor.reviews }} reviews)</span>
+                        </div>
+                        {% if offer.vendor.is_nabl_certified %}
+                        <div class="flex items-center text-green-600 text-sm mt-1">
+                            <i data-lucide="shield" class="w-4 h-4 mr-1"></i>
+                            <span>NABL Certified</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Price -->
+                    <div class="md:col-span-2">
+                        <div class="text-sm text-gray-500 mb-1">Price</div>
+                        <div class="flex items-baseline space-x-2">
+                            <span class="text-2xl font-bold text-gray-900">₹{{ offer.price }}</span>
+                            {% if offer.discount_percent %}
+                            <span class="text-sm text-gray-400 line-through">
+                                ₹{{ offer.original_price|default:offer.price }}
+                            </span>
+                            {% endif %}
+                        </div>
+                        {% if offer.discount_percent %}
+                        <span class="text-xs text-green-600 font-medium">
+                            {{ offer.discount_percent }}% OFF
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- ETA -->
+                    <div class="md:col-span-2">
+                        <div class="text-sm text-gray-500 mb-1">Report ETA</div>
+                        <div class="flex items-center text-gray-900">
+                            <i data-lucide="clock" class="w-4 h-4 mr-1 text-blue-600"></i>
+                            <span class="font-medium">{{ offer.eta }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="md:col-span-3">
+                        <div class="text-sm text-gray-500 mb-2">Features</div>
+                        <div class="space-y-1">
+                            <div class="flex items-center text-sm">
+                                {% if offer.vendor.home_collection %}
+                                <i data-lucide="check" class="w-4 h-4 text-green-600 mr-1"></i>
+                                <span class="text-gray-700">Home Collection</span>
+                                {% else %}
+                                <span class="text-gray-400">No Home Collection</span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center text-sm">
+                                {% if offer.vendor.online_report %}
+                                <i data-lucide="check" class="w-4 h-4 text-green-600 mr-1"></i>
+                                <span class="text-gray-700">Online Report</span>
+                                {% else %}
+                                <span class="text-gray-400">No Online Report</span>
+                                {% endif %}
+                            </div>
+                            <div class="flex items-center text-sm">
+                                {% if offer.vendor.offline_report %}
+                                <i data-lucide="check" class="w-4 h-4 text-green-600 mr-1"></i>
+                                <span class="text-gray-700">Offline Report</span>
+                                {% else %}
+                                <span class="text-gray-400">No Offline Report</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div class="md:col-span-2 flex flex-col space-y-2">
+                        <button onclick="bookNow({{ test.id }}, {{ offer.vendor.id }})"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition font-medium text-sm">
+                            Book Now
+                        </button>
+                        <button onclick="addToCart({{ test.id }}, {{ offer.vendor.id }})"
+                                class="bg-white text-blue-600 border border-blue-600 px-4 py-2 rounded-lg hover:bg-blue-50 transition font-medium text-sm">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Test Information -->
+        <div class="mt-8 bg-white rounded-lg border border-gray-200 p-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">About This Test</h2>
+            <div class="space-y-4 text-gray-700">
+                <div>
+                    <h3 class="font-semibold mb-2">What is {{ test.name }}?</h3>
+                    <p>{{ test.description }}</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Why is it done?</h3>
+                    <p>This test helps healthcare providers diagnose, monitor, and manage various health conditions. It provides important information about your health status.</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-2">Test Preparation</h3>
+                    {% if test.fasting %}
+                    <p>This test requires fasting for 8-12 hours before sample collection. You should only drink water during this period.</p>
+                    {% else %}
+                    <p>No special preparation is required for this test. You can eat and drink normally before the test.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function addToCart(testId, offerId) {
+    fetch('{% url "add_to_cart" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({
+            test_id: testId,
+            offer_id: offerId,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showToast('Added to cart', 'success');
+            updateCartCount();
+        } else {
+            showToast('Failed to add to cart', 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        showToast('An error occurred', 'error');
+    });
+}
+
+function bookNow(testId, offerId) {
+    addToCart(testId, offerId);
+    setTimeout(() => {
+        window.location.href = '{% url "checkout" %}';
+    }, 500);
+}
+
+function updateCartCount() {
+    fetch('{% url "cart_count" %}')
+    .then(response => response.json())
+    .then(data => {
+        const cartBadge = document.querySelector('.cart-badge');
+        if (cartBadge) {
+            cartBadge.textContent = data.count;
+            cartBadge.style.display = data.count > 0 ? 'flex' : 'none';
+        }
+    });
+}
+</script>
+{% endblock %}

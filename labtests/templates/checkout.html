@@ -1,0 +1,354 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Checkout - BookOurLabTest.com{% endblock %}
+
+{% block main %}
+<div class="min-h-screen bg-gray-50 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+
+        <!-- Progress Steps -->
+        <div class="mb-8">
+            <div class="flex items-center justify-center space-x-4">
+                <div class="flex items-center {% if step == 'details' or step == 'payment' %}text-blue-600{% else %}text-gray-400{% endif %}">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center {% if step == 'details' %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+                        1
+                    </div>
+                    <span class="ml-2 font-medium hidden sm:inline">Details</span>
+                </div>
+                <div class="w-16 h-0.5 bg-gray-300"></div>
+                <div class="flex items-center {% if step == 'payment' %}text-blue-600{% else %}text-gray-400{% endif %}">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center {% if step == 'payment' %}bg-blue-600 text-white{% else %}bg-gray-200{% endif %}">
+                        2
+                    </div>
+                    <span class="ml-2 font-medium hidden sm:inline">Payment</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Main Content -->
+            <div class="lg:col-span-2">
+                {% if step == 'details' %}
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Your Details</h2>
+                    <form method="post" class="space-y-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="step" value="details">
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Full Name *
+                                </label>
+                                <input type="text"
+                                       name="name"
+                                       required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Phone Number *
+                                </label>
+                                <input type="tel"
+                                       name="phone"
+                                       required
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Email Address *
+                            </label>
+                            <input type="email"
+                                   name="email"
+                                   required
+                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Address *
+                            </label>
+                            <textarea name="address"
+                                      rows="3"
+                                      required
+                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    City
+                                </label>
+                                <input type="text"
+                                       name="city"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Pincode
+                                </label>
+                                <input type="text"
+                                       name="pincode"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Preferred Collection Date
+                                </label>
+                                <input type="date"
+                                       name="preferred_date"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Preferred Time
+                                </label>
+                                <select name="preferred_time"
+                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Select time</option>
+                                    <option value="morning">Morning (6 AM - 9 AM)</option>
+                                    <option value="forenoon">Forenoon (9 AM - 12 PM)</option>
+                                    <option value="afternoon">Afternoon (12 PM - 3 PM)</option>
+                                    <option value="evening">Evening (3 PM - 6 PM)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit"
+                                class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium">
+                            Continue to Payment
+                        </button>
+                    </form>
+                </div>
+
+                {% elif step == 'payment' %}
+                <div class="bg-white rounded-lg border border-gray-200 p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Payment Method</h2>
+
+                    <!-- Payment Method Selection -->
+                    <div class="grid grid-cols-3 gap-4 mb-6">
+                        <button type="button"
+                                onclick="selectPaymentMethod('card')"
+                                id="card-btn"
+                                class="p-4 border-2 rounded-lg flex flex-col items-center justify-center space-y-2 transition border-blue-600 bg-blue-50">
+                            <i data-lucide="credit-card" class="w-6 h-6 text-blue-600"></i>
+                            <span class="text-sm font-medium text-blue-600">Card</span>
+                        </button>
+
+                        <button type="button"
+                                onclick="selectPaymentMethod('upi')"
+                                id="upi-btn"
+                                class="p-4 border-2 rounded-lg flex flex-col items-center justify-center space-y-2 transition border-gray-200 hover:border-gray-300">
+                            <i data-lucide="wallet" class="w-6 h-6 text-gray-600"></i>
+                            <span class="text-sm font-medium text-gray-600">UPI</span>
+                        </button>
+
+                        <button type="button"
+                                onclick="selectPaymentMethod('netbanking')"
+                                id="netbanking-btn"
+                                class="p-4 border-2 rounded-lg flex flex-col items-center justify-center space-y-2 transition border-gray-200 hover:border-gray-300">
+                            <i data-lucide="building-2" class="w-6 h-6 text-gray-600"></i>
+                            <span class="text-sm font-medium text-gray-600">Net Banking</span>
+                        </button>
+                    </div>
+
+                    <form method="post" id="payment-form" class="space-y-4">
+                        {% csrf_token %}
+                        <input type="hidden" name="step" value="payment">
+                        <input type="hidden" name="payment_method" id="payment_method" value="card">
+
+                        <div id="card-fields">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Card Number
+                                </label>
+                                <input type="text"
+                                       name="card_number"
+                                       placeholder="1234 5678 9012 3456"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                       maxlength="19">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Cardholder Name
+                                </label>
+                                <input type="text"
+                                       name="card_name"
+                                       placeholder="John Doe"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        Expiry Date
+                                    </label>
+                                    <input type="text"
+                                           name="expiry_date"
+                                           placeholder="MM/YY"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           maxlength="5">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                                        CVV
+                                    </label>
+                                    <input type="text"
+                                           name="cvv"
+                                           placeholder="123"
+                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           maxlength="3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="upi-fields" class="hidden">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    UPI ID
+                                </label>
+                                <input type="text"
+                                       name="upi_id"
+                                       placeholder="yourname@upi"
+                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
+                        </div>
+
+                        <div id="netbanking-fields" class="hidden">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Select Bank
+                                </label>
+                                <select name="bank" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="">Choose your bank</option>
+                                    <option value="sbi">State Bank of India</option>
+                                    <option value="hdfc">HDFC Bank</option>
+                                    <option value="icici">ICICI Bank</option>
+                                    <option value="axis">Axis Bank</option>
+                                    <option value="pnb">Punjab National Bank</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4 pt-4">
+                            <button type="button"
+                                    onclick="goBackToDetails()"
+                                    class="flex-1 bg-white text-gray-700 border border-gray-300 py-3 rounded-lg hover:bg-gray-50 transition font-medium">
+                                Back
+                            </button>
+                            <button type="submit"
+                                    class="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium">
+                                Pay ₹{{ total }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-20">
+                    <h2 class="font-semibold text-gray-900 mb-4">Order Summary</h2>
+
+                    <!-- Cart Items -->
+                    <div class="space-y-4 mb-4 max-h-64 overflow-y-auto">
+                        {% for item in cart_items %}
+                        <div class="pb-4 border-b border-gray-100">
+                            <div class="flex justify-between mb-2">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-900 text-sm">{{ item.test.name }}</h4>
+                                    <p class="text-xs text-gray-500">{{ item.offer.vendor.name }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm font-medium">{{ item.quantity }}</span>
+                                </div>
+                                <span class="font-medium text-gray-900">₹{{ item.total }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Price Breakdown -->
+                    <div class="space-y-2 pt-4 border-t border-gray-200">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Subtotal</span>
+                            <span class="text-gray-900">₹{{ subtotal }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Discount (5%)</span>
+                            <span class="text-green-600">-₹{{ discount }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">GST (18%)</span>
+                            <span class="text-gray-900">₹{{ gst }}</span>
+                        </div>
+                        <div class="flex justify-between pt-2 border-t border-gray-200">
+                            <span class="font-semibold text-gray-900">Total</span>
+                            <span class="font-bold text-gray-900">₹{{ total }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function selectPaymentMethod(method) {
+    // Update hidden input
+    document.getElementById('payment_method').value = method;
+
+    // Update button styles
+    const buttons = ['card', 'upi', 'netbanking'];
+    buttons.forEach(btn => {
+        const button = document.getElementById(btn + '-btn');
+        const icon = button.querySelector('i');
+        const span = button.querySelector('span');
+
+        if (btn === method) {
+            button.classList.remove('border-gray-200', 'hover:border-gray-300');
+            button.classList.add('border-blue-600', 'bg-blue-50');
+            icon.classList.remove('text-gray-600');
+            icon.classList.add('text-blue-600');
+            span.classList.remove('text-gray-600');
+            span.classList.add('text-blue-600');
+        } else {
+            button.classList.remove('border-blue-600', 'bg-blue-50');
+            button.classList.add('border-gray-200', 'hover:border-gray-300');
+            icon.classList.remove('text-blue-600');
+            icon.classList.add('text-gray-600');
+            span.classList.remove('text-blue-600');
+            span.classList.add('text-gray-600');
+        }
+    });
+
+    // Show/hide payment fields
+    document.getElementById('card-fields').classList.toggle('hidden', method !== 'card');
+    document.getElementById('upi-fields').classList.toggle('hidden', method !== 'upi');
+    document.getElementById('netbanking-fields').classList.toggle('hidden', method !== 'netbanking');
+}
+
+function goBackToDetails() {
+    const form = document.createElement('form');
+    form.method = 'GET';
+    form.action = '{% url "checkout" %}';
+    form.innerHTML = '<input type="hidden" name="step" value="details">';
+    document.body.appendChild(form);
+    form.submit();
+}
+
+// Initialize card as selected
+selectPaymentMethod('card');
+</script>
+{% endblock %}

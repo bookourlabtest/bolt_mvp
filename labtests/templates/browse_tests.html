@@ -1,0 +1,166 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Browse Lab Tests - BookOurLabTest.com{% endblock %}
+
+{% block main %}
+<div class="min-h-screen bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">Browse Lab Tests</h1>
+            <p class="text-gray-600">
+                Compare prices and book from {{ tests|length }} available test{{ tests|length|pluralize }}
+            </p>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <form method="get" class="bg-white rounded-lg border border-gray-200 p-4 mb-6">
+            <div class="flex flex-col sm:flex-row gap-4">
+                <!-- Search -->
+                <div class="flex-1 relative">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                    <input type="text"
+                           name="search"
+                           placeholder="Search for tests..."
+                           value="{{ search_query }}"
+                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Sort -->
+                <select name="sort"
+                        class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="popular" {% if sort_by == 'popular' %}selected{% endif %}>Popular</option>
+                    <option value="price-low" {% if sort_by == 'price-low' %}selected{% endif %}>Price: Low to High</option>
+                    <option value="price-high" {% if sort_by == 'price-high' %}selected{% endif %}>Price: High to Low</option>
+                    <option value="eta" {% if sort_by == 'eta' %}selected{% endif %}>Fastest ETA</option>
+                </select>
+
+                <!-- Filter Toggle (Mobile) -->
+                <button type="button"
+                        onclick="toggleFilters()"
+                        class="sm:hidden flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+                    <i data-lucide="sliders-horizontal" class="w-5 h-5 mr-2"></i>
+                    Filters
+                </button>
+            </div>
+        </form>
+
+        <div class="grid lg:grid-cols-4 gap-6">
+            <!-- Filters Sidebar -->
+            <aside id="filters-sidebar" class="lg:block {% if not request.GET %}hidden{% endif %}">
+                <div class="bg-white rounded-lg border border-gray-200 p-6 sticky top-20">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="font-semibold text-gray-900">Filters</h2>
+                        <a href="{% url 'browse_tests' %}"
+                           class="text-sm text-blue-600 hover:text-blue-700">
+                            Clear All
+                        </a>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-900 mb-3">Category</h3>
+                        <div class="space-y-2">
+                            {% for category in categories %}
+                            <label class="flex items-center cursor-pointer">
+                                <input type="radio"
+                                       name="category"
+                                       value="{{ category }}"
+                                       {% if category == selected_category %}checked{% endif %}
+                                       onchange="this.form.submit()"
+                                       class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">{{ category }}</span>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Price Range -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-900 mb-3">Price Range</h3>
+                        <div class="space-y-2">
+                            <input type="range"
+                                   name="max_price"
+                                   min="0"
+                                   max="5000"
+                                   step="100"
+                                   value="{{ request.GET.max_price|default:5000 }}"
+                                   onchange="this.form.submit()"
+                                   class="w-full">
+                            <div class="flex items-center justify-between text-sm text-gray-600">
+                                <span>₹0</span>
+                                <span>₹{{ request.GET.max_price|default:5000 }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="mb-6">
+                        <h3 class="font-medium text-gray-900 mb-3">Features</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox"
+                                       name="home_collection"
+                                       {% if request.GET.home_collection %}checked{% endif %}
+                                       onchange="this.form.submit()"
+                                       class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">Home Collection</span>
+                            </label>
+                            <label class="flex items-center cursor-pointer">
+                                <input type="checkbox"
+                                       name="online_report"
+                                       {% if request.GET.online_report %}checked{% endif %}
+                                       onchange="this.form.submit()"
+                                       class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-700">Online Report</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="button"
+                            onclick="toggleFilters()"
+                            class="lg:hidden w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+                        Apply Filters
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Tests Grid -->
+            <div class="lg:col-span-3">
+                {% if tests %}
+                <div class="text-sm text-gray-600 mb-4">
+                    Showing {{ tests|length }} test{{ tests|length|pluralize }}
+                </div>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    {% for test in tests %}
+                    <a href="{% url 'test_details' test.id %}" class="card-hover">
+                        {% include "components/test_card.html" with test=test lowest_offer=test.lowest_offer offers=test.offers %}
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-white rounded-lg border border-gray-200 p-12 text-center">
+                    <i data-lucide="x" class="w-12 h-12 text-gray-400 mx-auto mb-4"></i>
+                    <h3 class="font-semibold text-gray-900 mb-2">No tests found</h3>
+                    <p class="text-gray-600 mb-4">
+                        Try adjusting your filters or search query
+                    </p>
+                    <a href="{% url 'browse_tests' %}"
+                       class="text-blue-600 hover:text-blue-700 font-medium">
+                        Clear Filters
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleFilters() {
+    const sidebar = document.getElementById('filters-sidebar');
+    sidebar.classList.toggle('hidden');
+}
+</script>
+{% endblock %}

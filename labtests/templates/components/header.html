@@ -1,0 +1,76 @@
+<header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <span class="text-white font-bold text-xl">B</span>
+                </div>
+                <span class="font-bold text-xl text-gray-900 hidden sm:block">
+                    BookOurLabTest.com
+                </span>
+                <span class="font-bold text-xl text-gray-900 sm:hidden">
+                    BOLT
+                </span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="{% url 'home' %}" class="text-gray-700 hover:text-blue-600 transition">
+                    Home
+                </a>
+                <a href="{% url 'browse_tests' %}" class="text-gray-700 hover:text-blue-600 transition">
+                    Browse Tests
+                </a>
+                <a href="{% url 'browse_tests' %}" class="text-gray-700 hover:text-blue-600 transition">
+                    Health Packages
+                </a>
+            </nav>
+
+            <!-- Right Side Actions -->
+            <div class="flex items-center space-x-4">
+                <a href="{% url 'browse_tests' %}"
+                   class="text-gray-600 hover:text-blue-600 transition"
+                   aria-label="Search">
+                    <i data-lucide="search" class="w-5 h-5"></i>
+                </a>
+                <a href="{% url 'checkout' %}"
+                   class="relative text-gray-600 hover:text-blue-600 transition"
+                   aria-label="Cart">
+                    <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    {% if cart_items_count > 0 %}
+                    <span class="cart-badge absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {{ cart_items_count }}
+                    </span>
+                    {% endif %}
+                </a>
+                <button class="md:hidden text-gray-600"
+                        onclick="toggleMobileMenu()"
+                        aria-label="Menu">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden py-4 border-t border-gray-200 hidden">
+            <nav class="flex flex-col space-y-4">
+                <a href="{% url 'home' %}"
+                   class="text-gray-700 hover:text-blue-600 transition"
+                   onclick="toggleMobileMenu()">
+                    Home
+                </a>
+                <a href="{% url 'browse_tests' %}"
+                   class="text-gray-700 hover:text-blue-600 transition"
+                   onclick="toggleMobileMenu()">
+                    Browse Tests
+                </a>
+                <a href="{% url 'browse_tests' %}"
+                   class="text-gray-700 hover:text-blue-600 transition"
+                   onclick="toggleMobileMenu()">
+                    Health Packages
+                </a>
+            </nav>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,50 @@
+<div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition-shadow">
+    {% if lowest_offer %}
+    <div class="flex items-start justify-between mb-3">
+        <div class="flex-1">
+            <h3 class="font-semibold text-gray-900 mb-1">{{ test.name }}</h3>
+            <p class="text-sm text-gray-600 line-clamp-2">{{ test.description }}</p>
+        </div>
+        {% if lowest_offer.discount_percent > 0 %}
+        <div class="flex items-center bg-green-50 text-green-700 px-2 py-1 rounded text-xs font-medium ml-2">
+            <i data-lucide="trending-down" class="w-3 h-3 mr-1"></i>
+            {{ lowest_offer.discount_percent }}% OFF
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="flex items-center space-x-4 text-sm text-gray-600 mb-4">
+        <div class="flex items-center">
+            <i data-lucide="flask-conical" class="w-4 h-4 mr-1"></i>
+            <span>{{ test.parameters }} parameters</span>
+        </div>
+        <div class="flex items-center">
+            <i data-lucide="clock" class="w-4 h-4 mr-1"></i>
+            <span>From {{ lowest_offer.eta }}</span>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+        <div>
+            <div class="text-xs text-gray-500">Starting from</div>
+            <div class="flex items-baseline space-x-2">
+                <span class="text-2xl font-bold text-gray-900">₹{{ lowest_offer.price }}</span>
+                {% if lowest_offer.original_price %}
+                <span class="text-sm text-gray-400 line-through">
+                    ₹{{ lowest_offer.original_price }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="text-sm text-blue-600 font-medium">
+            {{ offers|length }} vendor{{ offers|length|pluralize }}
+        </div>
+    </div>
+
+    {% if test.fasting %}
+    <div class="mt-3 text-xs text-amber-700 bg-amber-50 px-2 py-1 rounded inline-block">
+        Fasting required
+    </div>
+    {% endif %}
+    {% endif %}
+</div>

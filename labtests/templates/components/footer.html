@@ -1,0 +1,106 @@
+<footer class="bg-gray-900 text-gray-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- About -->
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-xl">B</span>
+                    </div>
+                    <span class="font-bold text-lg text-white">BookOurLabTest</span>
+                </div>
+                <p class="text-sm mb-4">
+                    Your trusted partner for comparing and booking lab tests from top diagnostic centers across India.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-blue-400 transition">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="hover:text-blue-400 transition">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="hover:text-blue-400 transition">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="hover:text-blue-400 transition">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h3 class="font-semibold text-white mb-4">Quick Links</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>
+                        <a href="{% url 'home' %}" class="hover:text-blue-400 transition">Home</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Browse Tests</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Health Packages</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-blue-400 transition">About Us</a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-blue-400 transition">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Popular Tests -->
+            <div>
+                <h3 class="font-semibold text-white mb-4">Popular Tests</h3>
+                <ul class="space-y-2 text-sm">
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Complete Blood Count</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Lipid Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Thyroid Profile</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">HbA1c Test</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'browse_tests' %}" class="hover:text-blue-400 transition">Full Body Checkup</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact -->
+            <div>
+                <h3 class="font-semibold text-white mb-4">Contact Us</h3>
+                <ul class="space-y-3 text-sm">
+                    <li class="flex items-start space-x-2">
+                        <i data-lucide="map-pin" class="w-4 h-4 mt-1 flex-shrink-0"></i>
+                        <span>123 Healthcare Plaza, Medical District, Mumbai, India 400001</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i data-lucide="phone" class="w-4 h-4 flex-shrink-0"></i>
+                        <span>+91 1800-123-4567</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i data-lucide="mail" class="w-4 h-4 flex-shrink-0"></i>
+                        <span>support@bookourlabtest.com</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-800 mt-8 pt-8 text-sm text-center">
+            <p>&copy; {% now "Y" %} BookOurLabTest.com. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-2">
+                <a href="#" class="hover:text-blue-400 transition">Privacy Policy</a>
+                <span>|</span>
+                <a href="#" class="hover:text-blue-400 transition">Terms of Service</a>
+                <span>|</span>
+                <a href="#" class="hover:text-blue-400 transition">Refund Policy</a>
+            </div>
+        </div>
+    </div>
+</footer>

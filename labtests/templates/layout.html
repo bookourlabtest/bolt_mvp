@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col">
+    {% include "components/header.html" %}
+    <main class="flex-1">
+        {% block main %}{% endblock %}
+    </main>
+    {% include "components/footer.html" %}
+</div>
+{% endblock %}

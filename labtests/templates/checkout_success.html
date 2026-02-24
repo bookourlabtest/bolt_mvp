@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block title %}Booking Confirmed - BookOurLabTest.com{% endblock %}
+
+{% block main %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+    <div class="max-w-md w-full bg-white rounded-lg border border-gray-200 p-8 text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="check-circle" class="w-10 h-10 text-green-600"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h2>
+        <p class="text-gray-600 mb-6">
+            Your lab test has been successfully booked. We'll send confirmation details to your email.
+        </p>
+        <div class="bg-gray-50 rounded-lg p-4 mb-6 text-left">
+            <div class="text-sm text-gray-600 mb-1">Booking ID</div>
+            <div class="font-mono font-semibold text-gray-900">{{ booking_id }}</div>
+        </div>
+        <div class="space-y-2">
+            <a href="{% url 'home' %}"
+               class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium inline-block text-center">
+                Back to Home
+            </a>
+            <a href="{% url 'browse_tests' %}"
+               class="w-full bg-white text-blue-600 border border-blue-600 py-3 rounded-lg hover:bg-blue-50 transition font-medium inline-block text-center">
+                Browse More Tests
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

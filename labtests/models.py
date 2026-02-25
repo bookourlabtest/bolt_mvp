@@ -63,3 +63,18 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return f"{self.message_type}: {self.content[:50]}..."
+
+
+class Booking(models.Model):
+    test = models.ForeignKey(TestPricing, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    phone = models.CharField(max_length=30, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    preferred_date = models.DateField(null=True, blank=True)
+    preferred_time = models.TimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, default='pending')
+
+    def __str__(self):
+        return f"Booking {self.id} - {self.full_name} - {self.test.test.name}"

@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.db.models import Min, Q
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .models import Category, Vendor, LabTest, TestPricing, ChatSession, ChatMessage
+from .models import Category, Vendor, LabTest, TestPricing, ChatSession, ChatMessage, Booking
 import json
 from decimal import Decimal
 import uuid
@@ -546,3 +546,107 @@ def chat_history(request):
         })
 
     return JsonResponse({'messages': message_list})
+
+
+@csrf_exempt
+def api_tests_list(request):
+    """Return list of available lab tests with basic pricing info"""
+    tests = LabTest.objects.all().values('id', 'name', 'description', 'fasting', 'turnaround_hours')
+    test_list = []
+    for t in tests:
+        # get cheapest pricing if available
+        pricing = TestPricing.objects.filter(test_id=t['id']).order_by('price').first()
+        price = None
+        vendor = None
+        if pricing:
+            price = str(pricing.price)
+            vendor = pricing.vendor.name
+
+        test_list.append({
+            'id': t['id'],
+            'name': t['name'],
+            'description': t['description'],
+            'fasting': t['fasting'],
+            'turnaround_hours': t['turnaround_hours'],
+            'price': price,
+            'vendor': vendor,
+        })
+
+    return JsonResponse({'tests': test_list})
+
+
+@csrf_exempt
+def api_test_detail(request, test_id):
+    """Return detailed info for a specific test, including all vendor pricing"""
+    test = get_object_or_404(LabTest, pk=test_id)
+    pricings = TestPricing.objects.filter(test=test).select_related('vendor')
+    pricing_list = []
+    for p in pricings:
+        pricing_list.append({
+            'id': p.id,
+            'vendor': p.vendor.name,
+            'price': str(p.price),
+            'eta': p.eta,
+            'report_eta_hours': p.report_eta_hours,
+        })
+
+    data = {
+        'id': test.id,
+        'name': test.name,
+        'description': test.description,
+        'parameters': test.parameters,
+        'fasting': test.fasting,
+        'turnaround_hours': test.turnaround_hours,
+        'pricings': pricing_list,
+    }
+    return JsonResponse(data)
+
+
+@csrf_exempt
+def api_bookings(request):
+    """Create a booking (POST) or list bookings (GET). POST expects JSON with booking fields."""
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            pricing_id = data.get('pricing_id')
+            full_name = data.get('full_name')
+            email = data.get('email')
+            phone = data.get('phone')
+            address = data.get('address')
+            preferred_date = data.get('preferred_date')
+            preferred_time = data.get('preferred_time')
+
+            if not pricing_id or not full_name or not email:
+                return JsonResponse({'success': False, 'error': 'pricing_id, full_name and email required'}, status=400)
+
+            pricing = get_object_or_404(TestPricing, pk=pricing_id)
+            booking = Booking.objects.create(
+                test=pricing,
+                full_name=full_name,
+                email=email,
+                phone=phone,
+                address=address,
+                preferred_date=preferred_date if preferred_date else None,
+                preferred_time=preferred_time if preferred_time else None,
+            )
+
+            return JsonResponse({'success': True, 'booking_id': booking.id})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+
+    # GET - list recent bookings
+    bookings = Booking.objects.all().order_by('-created_at')[:50]
+    booking_list = []
+    for b in bookings:
+        booking_list.append({
+            'id': b.id,
+            'test': b.test.test.name,
+            'vendor': b.test.vendor.name,
+            'full_name': b.full_name,
+            'email': b.email,
+            'phone': b.phone,
+            'status': b.status,
+            'created_at': b.created_at.isoformat(),
+        })
+
+    return JsonResponse({'bookings': booking_list})

@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 
+# Touch file to trigger runserver autoreload when updated
+
 urlpatterns = [
     path('', views.home, name='home'),
     path('tests/', views.browse_tests, name='browse_tests'),

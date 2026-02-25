@@ -21,6 +21,12 @@
     
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/chat.js' %}"></script>
+    <script>
+        // Initialize Lucide icons after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            lucide.createIcons();
+        });
+    </script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>

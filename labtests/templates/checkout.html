@@ -42,19 +42,25 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Full Name *
                                 </label>
-                                <input type="text"
-                                       name="name"
-                                       required
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="user" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="name"
+                                           required
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Phone Number *
                                 </label>
-                                <input type="tel"
-                                       name="phone"
-                                       required
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="phone" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="tel"
+                                           name="phone"
+                                           required
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                         </div>
 
@@ -62,20 +68,26 @@
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Email Address *
                             </label>
-                            <input type="email"
-                                   name="email"
-                                   required
-                                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div class="relative">
+                                <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                <input type="email"
+                                       name="email"
+                                       required
+                                       class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            </div>
                         </div>
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Address *
                             </label>
-                            <textarea name="address"
-                                      rows="3"
-                                      required
-                                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            <div class="relative">
+                                <i data-lucide="map-pin" class="absolute left-3 top-3 text-gray-400 w-5 h-5"></i>
+                                <textarea name="address"
+                                          rows="3"
+                                          required
+                                          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                            </div>
                         </div>
 
                         <div class="grid sm:grid-cols-2 gap-4">
@@ -83,17 +95,23 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     City
                                 </label>
-                                <input type="text"
-                                       name="city"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="building" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="city"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Pincode
                                 </label>
-                                <input type="text"
-                                       name="pincode"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="hash" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="pincode"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                         </div>
 
@@ -102,22 +120,28 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Preferred Collection Date
                                 </label>
-                                <input type="date"
-                                       name="preferred_date"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="calendar" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="date"
+                                           name="preferred_date"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Preferred Time
                                 </label>
-                                <select name="preferred_time"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Select time</option>
-                                    <option value="morning">Morning (6 AM - 9 AM)</option>
-                                    <option value="forenoon">Forenoon (9 AM - 12 PM)</option>
-                                    <option value="afternoon">Afternoon (12 PM - 3 PM)</option>
-                                    <option value="evening">Evening (3 PM - 6 PM)</option>
-                                </select>
+                                <div class="relative">
+                                    <i data-lucide="clock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <select name="preferred_time"
+                                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Select time</option>
+                                        <option value="morning">Morning (6 AM - 9 AM)</option>
+                                        <option value="forenoon">Forenoon (9 AM - 12 PM)</option>
+                                        <option value="afternoon">Afternoon (12 PM - 3 PM)</option>
+                                        <option value="evening">Evening (3 PM - 6 PM)</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -169,21 +193,27 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Card Number
                                 </label>
-                                <input type="text"
-                                       name="card_number"
-                                       placeholder="1234 5678 9012 3456"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                       maxlength="19">
+                                <div class="relative">
+                                    <i data-lucide="credit-card" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="card_number"
+                                           placeholder="1234 5678 9012 3456"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                           maxlength="19">
+                                </div>
                             </div>
 
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Cardholder Name
                                 </label>
-                                <input type="text"
-                                       name="card_name"
-                                       placeholder="John Doe"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="user" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="card_name"
+                                           placeholder="John Doe"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
 
                             <div class="grid grid-cols-2 gap-4">
@@ -191,21 +221,27 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         Expiry Date
                                     </label>
-                                    <input type="text"
-                                           name="expiry_date"
-                                           placeholder="MM/YY"
-                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                           maxlength="5">
+                                    <div class="relative">
+                                        <i data-lucide="calendar" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                        <input type="text"
+                                               name="expiry_date"
+                                               placeholder="MM/YY"
+                                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                               maxlength="5">
+                                    </div>
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         CVV
                                     </label>
-                                    <input type="text"
-                                           name="cvv"
-                                           placeholder="123"
-                                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                           maxlength="3">
+                                    <div class="relative">
+                                        <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                        <input type="text"
+                                               name="cvv"
+                                               placeholder="123"
+                                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                               maxlength="3">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -215,10 +251,13 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     UPI ID
                                 </label>
-                                <input type="text"
-                                       name="upi_id"
-                                       placeholder="yourname@upi"
-                                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <div class="relative">
+                                    <i data-lucide="wallet" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text"
+                                           name="upi_id"
+                                           placeholder="yourname@upi"
+                                           class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                </div>
                             </div>
                         </div>
 
@@ -227,14 +266,17 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Select Bank
                                 </label>
-                                <select name="bank" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Choose your bank</option>
-                                    <option value="sbi">State Bank of India</option>
-                                    <option value="hdfc">HDFC Bank</option>
-                                    <option value="icici">ICICI Bank</option>
-                                    <option value="axis">Axis Bank</option>
-                                    <option value="pnb">Punjab National Bank</option>
-                                </select>
+                                <div class="relative">
+                                    <i data-lucide="building-2" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <select name="bank" class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="">Choose your bank</option>
+                                        <option value="sbi">State Bank of India</option>
+                                        <option value="hdfc">HDFC Bank</option>
+                                        <option value="icici">ICICI Bank</option>
+                                        <option value="axis">Axis Bank</option>
+                                        <option value="pnb">Punjab National Bank</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 

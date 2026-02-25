@@ -11,4 +11,8 @@ urlpatterns = [
     # API endpoints
     path('api/cart/add/', views.add_to_cart, name='add_to_cart'),
     path('api/cart/count/', views.cart_count, name='cart_count'),
+
+    # Chat endpoints
+    path('api/chat/message/', views.chat_message, name='chat_message'),
+    path('api/chat/history/', views.chat_history, name='chat_history'),
 ]

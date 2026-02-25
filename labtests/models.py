@@ -36,3 +36,30 @@ class TestPricing(models.Model):
     original_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     def __str__(self):
         return f"{self.test.name} - {self.vendor.name}"
+
+class ChatSession(models.Model):
+    session_id = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Chat Session {self.session_id}"
+
+class ChatMessage(models.Model):
+    MESSAGE_TYPES = [
+        ('user', 'User'),
+        ('assistant', 'Assistant'),
+        ('system', 'System'),
+    ]
+
+    session = models.ForeignKey(ChatSession, on_delete=models.CASCADE, related_name='messages')
+    message_type = models.CharField(max_length=10, choices=MESSAGE_TYPES)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    attachment = models.FileField(upload_to='chat_attachments/', null=True, blank=True)
+
+    class Meta:
+        ordering = ['timestamp']
+
+    def __str__(self):
+        return f"{self.message_type}: {self.content[:50]}..."
